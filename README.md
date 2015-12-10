@@ -28,3 +28,21 @@ PickPhotos for Android Devices.It‘s a simple MVP demo.
             android:screenOrientation="portrait"/>
 ```
 
+####Receive Activity
+```code
+   @Override
+   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+       if(resultCode!=RESULT_OK){
+           return;
+       }
+
+       if(requestCode==PickConfig.PICK_REQUEST_CODE){
+            ArrayList<String> pick = data.getStringArrayListExtra(PickConfig.EXTRA_STRING_ARRAYLIST);
+            Toast.makeText(this,"pick size:"+pick.size(),Toast.LENGTH_SHORT).show();
+            imageAdapter.clearAdapter();
+            imageAdapter.addData(pick);
+       }
+   }
+```
+
