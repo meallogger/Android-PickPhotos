@@ -8,7 +8,7 @@ PickPhotos for Android Devices.
 
 ```code
 
-   new PickConfig.Builder(this)
+  new PickConfig.Builder(this)
                 .pickMode(PickConfig.MODE_MULTIP_PICK)
                 .maxPickSize(30)
                 .spanCount(3)
@@ -18,9 +18,9 @@ PickPhotos for Android Devices.
 ####Permission
 
 ```code
-	  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 ```
-####mianfest
+####AndroidManifest.xml
 ```code
    <activity android:name="me.crosswall.photo.pick.PickPhotosActiviy"
             android:screenOrientation="portrait"/>
