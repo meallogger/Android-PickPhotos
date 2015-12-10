@@ -2,6 +2,8 @@
 
 PickPhotos for Android Devices.It‘s a simple MVP demo. 
 
+##GIF
+![crosswall](https://github.com/crosswall/Android-PickPhotos/blob/master/art/pickphotos.gif)
 
 
 ##How to use.
