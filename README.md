@@ -1,13 +1,14 @@
 #Android-PickPhotos
 
-PickPhotos for Android Devices.
+PickPhotos for Android Devices.It‘s a simple MVP demo. 
+
+
 
 ##How to use.
 
 ####PickConfig
 
 ```code
-
   new PickConfig.Builder(this)
                 .pickMode(PickConfig.MODE_MULTIP_PICK)
                 .maxPickSize(30)
@@ -24,6 +25,5 @@ PickPhotos for Android Devices.
 ```code
    <activity android:name="me.crosswall.photo.pick.PickPhotosActiviy"
             android:screenOrientation="portrait"/>
-
 ```
 
