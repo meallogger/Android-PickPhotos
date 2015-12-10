@@ -18,7 +18,7 @@ public class PickConfig {
 
     public static int MODE_MULTIP_PICK  = 2;
 
-    public static int DEFALUT_TOOLBAR_COLOR = R.attr.colorPrimary;
+    public static int DEFALUT_TOOLBAR_COLOR = R.color.colorPrimary;
 
     public final static int PICK_REQUEST_CODE = 10607;
 
