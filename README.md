@@ -15,4 +15,15 @@ PickPhotos for Android Devices.
                 .toolbarColor(R.color.colorPrimary)
                 .build();
 ```
+####Permission
+
+```code
+	  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```
+####mianfest
+```code
+   <activity android:name="me.crosswall.photo.pick.PickPhotosActiviy"
+            android:screenOrientation="portrait"/>
+
+```
 
