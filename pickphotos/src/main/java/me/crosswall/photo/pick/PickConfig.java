@@ -60,10 +60,10 @@ public class PickConfig {
     public static class Builder{
 
         private Activity context;
-        private int spanCount;
-        private int pickMode;
-        private int maxPickSize;
-        private int toolbarColor;
+        private int spanCount = DEFAULT_SPANCOUNT;
+        private int pickMode  = MODE_SINGLE_PICK;
+        private int maxPickSize  = DEFAULT_PICKSIZE;
+        private int toolbarColor = DEFALUT_TOOLBAR_COLOR;
 
         public Builder(Activity context){
             if(context == null) {
@@ -74,21 +74,33 @@ public class PickConfig {
 
         public PickConfig.Builder spanCount(int spanCount){
             this.spanCount = spanCount;
+            if(this.spanCount==0){
+                this.spanCount = DEFAULT_SPANCOUNT;
+            }
             return this;
         }
 
         public PickConfig.Builder pickMode(int pickMode){
             this.pickMode = pickMode;
+            if(this.pickMode==0){
+                this.pickMode = MODE_SINGLE_PICK;
+            }
             return this;
         }
 
         public PickConfig.Builder maxPickSize(int maxPickSize){
             this.maxPickSize = maxPickSize;
+            if(this.maxPickSize==0){
+                this.maxPickSize = DEFAULT_PICKSIZE;
+            }
             return this;
         }
 
         public PickConfig.Builder toolbarColor(@ColorRes int toolbarColor){
             this.toolbarColor = toolbarColor;
+            if(this.toolbarColor==0){
+                this.toolbarColor = DEFALUT_TOOLBAR_COLOR;
+            }
             return this;
         }
 
