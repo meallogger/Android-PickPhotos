@@ -9,8 +9,10 @@ import android.provider.MediaStore;
 
 import java.util.ArrayList;
 
+import me.crosswall.photo.pick.R;
 import me.crosswall.photo.pick.model.AlbumInfo;
 import me.crosswall.photo.pick.model.ImageInfo;
+import me.crosswall.photo.pick.util.BitmapUtil;
 
 /**
  * Created by yuweichen on 15/12/8.
@@ -40,7 +42,7 @@ public class PhotoData {
         ArrayList<AlbumInfo> albumInfos = new ArrayList<>();
         AlbumInfo albumInfo = new AlbumInfo();
         albumInfo.bucketId = 0;
-        albumInfo.bucketName = "所有图片";
+        albumInfo.bucketName = context.getString(R.string.all_photo);
         albumInfo.photoCount = 0;
         albumInfos.add(albumInfo);
         int photoCount = 0;
@@ -123,11 +125,11 @@ public class PhotoData {
     }
 
     public static ArrayList<ImageInfo> getMediaThumbnailsPathByCategroy(Context context, long id) {
-        String selection = MediaStore.Images.Media.BUCKET_ID + " = ?";
-        String bucketId = String.valueOf(id);
-        String sort = MediaStore.Images.Media._ID + " DESC";
-        String[] selectionArgs = {bucketId};
 
+        String bucketId = String.valueOf(id);
+        String sort = MediaStore.Images.Media.DATE_ADDED + " DESC";
+        String selection = MediaStore.Images.Media.BUCKET_ID + " = ?";
+        String[] selectionArgs = {bucketId};
         Uri images = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         Cursor cursor;
         if (!bucketId.equals("0")) {
@@ -142,11 +144,16 @@ public class PhotoData {
         ArrayList<ImageInfo> imageInfos = new ArrayList<>();
 
         while (cursor.moveToNext()) {
+
             String path = cursor.getString(pathColumn);
-            ImageInfo imageInfo = new ImageInfo();
-            imageInfo.folderPath = path;
-            imageInfo.selectOrder = -1;
-            imageInfos.add(imageInfo);
+
+            if(!BitmapUtil.checkImgCorrupted(path)){
+                ImageInfo imageInfo = new ImageInfo();
+                imageInfo.folderPath = path;
+                imageInfo.selectOrder = -1;
+                imageInfos.add(imageInfo);
+            }
+
         }
 
         cursor.close();
@@ -156,3 +163,4 @@ public class PhotoData {
 
 
 }
+
