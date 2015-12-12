@@ -133,7 +133,8 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
             albumPopupWindow.getListView().smoothScrollToPosition(i);
             AlbumInfo albumInfo = albumPopupWindow.getItem(i);
             photoresenter.selectPhotoByCategory(albumInfo.bucketId);
-
+            btn_category.setText(albumInfo.bucketName);
+            recyclerView.scrollToPosition(0);
             albumPopupWindow.dismiss();
         }
     };
