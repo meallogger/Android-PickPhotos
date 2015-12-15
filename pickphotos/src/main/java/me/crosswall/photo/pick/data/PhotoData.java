@@ -12,6 +12,7 @@ import java.util.List;
 
 import me.crosswall.photo.pick.R;
 import me.crosswall.photo.pick.model.PhotoDirectory;
+import me.crosswall.photo.pick.util.BitmapUtil;
 
 import static android.provider.BaseColumns._ID;
 import static android.provider.MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME;
@@ -68,20 +69,23 @@ public class PhotoData {
             String name = data.getString(data.getColumnIndexOrThrow(BUCKET_DISPLAY_NAME));
             String path = data.getString(data.getColumnIndexOrThrow(DATA));
 
-            PhotoDirectory photoDirectory = new PhotoDirectory();
-            photoDirectory.setId(bucketId);
-            photoDirectory.setName(name);
+            if(!BitmapUtil.checkImgCorrupted(path)){
+                PhotoDirectory photoDirectory = new PhotoDirectory();
+                photoDirectory.setId(bucketId);
+                photoDirectory.setName(name);
 
-            if (!directories.contains(photoDirectory)) {
-                photoDirectory.setCoverPath(path);
-                photoDirectory.addPhoto(imageId, path);
-                photoDirectory.setDateAdded(data.getLong(data.getColumnIndexOrThrow(DATE_ADDED)));
-                directories.add(photoDirectory);
-            } else {
-                directories.get(directories.indexOf(photoDirectory)).addPhoto(imageId, path);
+                if (!directories.contains(photoDirectory)) {
+                    photoDirectory.setCoverPath(path);
+                    photoDirectory.addPhoto(imageId, path);
+                    photoDirectory.setDateAdded(data.getLong(data.getColumnIndexOrThrow(DATE_ADDED)));
+                    directories.add(photoDirectory);
+                } else {
+                    directories.get(directories.indexOf(photoDirectory)).addPhoto(imageId, path);
+                }
+
+                photoDirectoryAll.addPhoto(imageId, path);
             }
-
-            photoDirectoryAll.addPhoto(imageId, path);
+            
         }
         if (photoDirectoryAll.getPhotoPaths().size() > 0) {
             photoDirectoryAll.setCoverPath(photoDirectoryAll.getPhotoPaths().get(0));
