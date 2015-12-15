@@ -21,10 +21,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.crosswall.photo.pick.adapter.ThumbPhotoAdapter;
-import me.crosswall.photo.pick.model.AlbumInfo;
-import me.crosswall.photo.pick.model.ImageInfo;
+import me.crosswall.photo.pick.model.PhotoDirectory;
 import me.crosswall.photo.pick.presenters.PhotoPresenterImpl;
 import me.crosswall.photo.pick.util.PermissionUtil;
 import me.crosswall.photo.pick.util.UIUtil;
@@ -131,9 +131,10 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             albumPopupWindow.setSelectedIndex(i);
             albumPopupWindow.getListView().smoothScrollToPosition(i);
-            AlbumInfo albumInfo = albumPopupWindow.getItem(i);
-            photoresenter.selectPhotoByCategory(albumInfo.bucketId);
-            btn_category.setText(albumInfo.bucketName);
+            PhotoDirectory albumInfo = albumPopupWindow.getItem(i);
+            thumbPhotoAdapter.clearAdapter();
+            thumbPhotoAdapter.addData(albumInfo.getPhotos());
+            btn_category.setText(albumInfo.getName());
             recyclerView.scrollToPosition(0);
             albumPopupWindow.dismiss();
         }
@@ -154,14 +155,11 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
     }
 
     @Override
-    public void showAlbumView(ArrayList<AlbumInfo> albumInfos) {
-        albumPopupWindow.addData(albumInfos);
-    }
-
-    @Override
-    public void showPhotoView(ArrayList<ImageInfo> imageInfos) {
+    public void showAlbumView(List<PhotoDirectory> photoDirectories) {
+        Toast.makeText(PickPhotosActiviy.this,"albumInfos size:" + photoDirectories.size(),Toast.LENGTH_SHORT).show();
+        albumPopupWindow.addData(photoDirectories);
         thumbPhotoAdapter.clearAdapter();
-        thumbPhotoAdapter.addData(imageInfos);
+        thumbPhotoAdapter.addData(photoDirectories.get(0).getPhotos());
     }
 
     @Override
@@ -212,7 +210,7 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
 
     @Override
     public void showException(String msg) {
-
+        Toast.makeText(this,msg,Toast.LENGTH_SHORT).show();
     }
 
 }

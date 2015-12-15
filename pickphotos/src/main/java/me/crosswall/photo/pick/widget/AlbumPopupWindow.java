@@ -3,12 +3,10 @@ package me.crosswall.photo.pick.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListPopupWindow;
-
-
-import java.util.ArrayList;
+import java.util.List;
 
 import me.crosswall.photo.pick.adapter.AlbumListAdapter;
-import me.crosswall.photo.pick.model.AlbumInfo;
+import me.crosswall.photo.pick.model.PhotoDirectory;
 
 /**
  * Created by yuweichen on 15/12/9.
@@ -42,11 +40,11 @@ public class AlbumPopupWindow extends ListPopupWindow{
         setModal(true);
     }
 
-    public void addData(ArrayList<AlbumInfo> albumInfos){
-        this.albumAdapter.addData(albumInfos);
+    public void addData(List<PhotoDirectory> photoDirectories){
+        this.albumAdapter.addData(photoDirectories);
     }
 
-    public AlbumInfo getItem(int position){
+    public PhotoDirectory getItem(int position){
         return this.albumAdapter.getItem(position);
     }
 

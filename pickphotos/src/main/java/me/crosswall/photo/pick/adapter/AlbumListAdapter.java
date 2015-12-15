@@ -1,7 +1,6 @@
 package me.crosswall.photo.pick.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +12,16 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.crosswall.photo.pick.R;
-import me.crosswall.photo.pick.model.AlbumInfo;
-import me.crosswall.photo.pick.util.UriUtil;
+import me.crosswall.photo.pick.model.PhotoDirectory;
 
 /**
  * Created by yuweichen on 15/12/9.
  */
 public class AlbumListAdapter extends BaseAdapter{
-    private ArrayList<AlbumInfo> albumInfos = new ArrayList<>();
+    private List<PhotoDirectory> photoDirectories = new ArrayList<>();
     private Context context;
     private int selected;
     private LayoutInflater inflater;
@@ -31,24 +30,24 @@ public class AlbumListAdapter extends BaseAdapter{
         this.inflater = LayoutInflater.from(context);
     }
 
-    public void addData(ArrayList<AlbumInfo> albumInfos){
-        this.albumInfos.addAll(albumInfos);
+    public void addData(List<PhotoDirectory> photoDirectories){
+        this.photoDirectories.addAll(photoDirectories);
         notifyDataSetChanged();
     }
 
     public void clearAdapter(){
-        this.albumInfos.clear();
+        this.photoDirectories.clear();
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return albumInfos.size();
+        return photoDirectories.size();
     }
 
     @Override
-    public AlbumInfo getItem(int position) {
-        return albumInfos.get(position);
+    public PhotoDirectory getItem(int position) {
+        return photoDirectories.get(position);
     }
 
     @Override
@@ -71,20 +70,20 @@ public class AlbumListAdapter extends BaseAdapter{
         }else{
             holder = (ViewHolder) view.getTag();
         }
-        AlbumInfo albumInfo = getItem(position);
-        holder.photo_album_dis_name.setText(albumInfo.bucketName);
-        holder.photo_album_element_count.setText(albumInfo.photoCount+"");
+        PhotoDirectory albumInfo = getItem(position);
+        holder.photo_album_dis_name.setText(albumInfo.getName());
+        holder.photo_album_element_count.setText(albumInfo.getPhotoPaths().size()+"");
         if(this.selected==position){
             holder.photo_album_selected.setVisibility(View.VISIBLE);
         }else {
             holder.photo_album_selected.setVisibility(View.GONE);
         }
 
-        if(TextUtils.isEmpty(albumInfo.thumbPath)){
+        if(TextUtils.isEmpty(albumInfo.getCoverPath())){
             holder.photo_album_cover.setImageResource(R.drawable.default_error);
         }else{
-            Uri uri = UriUtil.generatorUri(albumInfo.thumbPath,UriUtil.LOCAL_FILE_SCHEME);
-            Glide.with(context).load(uri).placeholder(holder.photo_album_cover.getDrawable()).error(R.drawable.default_error).into(holder.photo_album_cover);
+           // Uri uri = UriUtil.generatorUri(albumInfo.getCoverPath(),UriUtil.LOCAL_FILE_SCHEME);
+            Glide.with(context).load(albumInfo.getCoverPath()).placeholder(holder.photo_album_cover.getDrawable()).error(R.drawable.default_error).into(holder.photo_album_cover);
         }
 
         return view;

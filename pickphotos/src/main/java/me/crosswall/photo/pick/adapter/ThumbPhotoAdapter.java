@@ -10,9 +10,10 @@ import android.widget.FrameLayout;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.crosswall.photo.pick.PickConfig;
-import me.crosswall.photo.pick.model.ImageInfo;
+import me.crosswall.photo.pick.model.Photo;
 import me.crosswall.photo.pick.widget.ThumbPhotoView;
 
 
@@ -22,7 +23,7 @@ import me.crosswall.photo.pick.widget.ThumbPhotoView;
 public class ThumbPhotoAdapter extends RecyclerView.Adapter<ThumbPhotoAdapter.ThumbHolder>{
 
     private Activity context;
-    private ArrayList<ImageInfo> imageInfos = new ArrayList<>();
+    private List<Photo> photos = new ArrayList<>();
     private int width;
     private Toolbar toolbar;
     private ArrayList<String> selectedImages = new ArrayList<>();
@@ -42,13 +43,13 @@ public class ThumbPhotoAdapter extends RecyclerView.Adapter<ThumbPhotoAdapter.Th
 
     }
 
-    public void addData(ArrayList<ImageInfo> imageInfos){
-        this.imageInfos.addAll(imageInfos);
+    public void addData(List<Photo> photos){
+        this.photos.addAll(photos);
         notifyDataSetChanged();
     }
 
     public void clearAdapter(){
-        this.imageInfos.clear();
+        this.photos.clear();
         notifyDataSetChanged();
     }
 
@@ -64,15 +65,15 @@ public class ThumbPhotoAdapter extends RecyclerView.Adapter<ThumbPhotoAdapter.Th
 
     @Override
     public int getItemCount() {
-        return this.imageInfos.size();
+        return this.photos.size();
     }
 
     public ArrayList<String> getSelectedImages(){
         return selectedImages;
     }
 
-    public ImageInfo getItem(int position){
-        return this.imageInfos.get(position);
+    public Photo getItem(int position){
+        return this.photos.get(position);
     }
 
 
@@ -85,16 +86,18 @@ public class ThumbPhotoAdapter extends RecyclerView.Adapter<ThumbPhotoAdapter.Th
             thumbPhotoView = (ThumbPhotoView) itemView;
         }
 
-        public void setData(final ImageInfo imageInfo,final int position){
+        public void setData(final Photo imageInfo,final int position){
 
             thumbPhotoView.setLayoutParams(new FrameLayout.LayoutParams(width,width));
-            thumbPhotoView.loadData(imageInfo.folderPath,pickMode);
+            thumbPhotoView.loadData(imageInfo.getPath(),pickMode);
 
-            if(selectedImages.contains(imageInfo.folderPath)){
+            if(selectedImages.contains(imageInfo.getPath())){
                 thumbPhotoView.showSelected(true);
             }else{
                 thumbPhotoView.showSelected(false);
             }
+
+            final String path = imageInfo.getPath();
 
             thumbPhotoView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,20 +105,20 @@ public class ThumbPhotoAdapter extends RecyclerView.Adapter<ThumbPhotoAdapter.Th
 
                     if(pickMode == PickConfig.MODE_SINGLE_PICK){
                         selectedImages.clear();
-                        selectedImages.add(imageInfo.folderPath);
+                        selectedImages.add(path);
                         Intent intent = new Intent();
                         intent.putStringArrayListExtra(PickConfig.EXTRA_STRING_ARRAYLIST,selectedImages);
                         context.setResult(context.RESULT_OK,intent);
                         context.finish();
                     }else{
-                        if(selectedImages.contains(imageInfo.folderPath)){
-                            selectedImages.remove(imageInfo.folderPath);
+                        if(selectedImages.contains(path)){
+                            selectedImages.remove(path);
                             thumbPhotoView.showSelected(false);
                         }else{
                             if(selectedImages.size()==maxPickSize){
                                 return;
                             }else{
-                                selectedImages.add(imageInfo.folderPath);
+                                selectedImages.add(path);
                                 thumbPhotoView.showSelected(true);
                             }
                         }
