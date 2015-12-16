@@ -10,11 +10,48 @@
     android:orientation="vertical"
     tools:context="me.crosswall.pickphotos.MainActivity">
 
-    <Button
-        android:onClick="testPick"
-        android:layout_width="wrap_content"
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+
+       <Button
+           android:onClick="testNormalPick"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="normal"/>
+
+       <Button
+           android:onClick="testLoaderPick"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="cursorLoader"
+           android:layout_marginLeft="5dp"/>
+
+   </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="click me!"/>
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:onClick="testNormalCheckPick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="normal(check image)"/>
+
+        <Button
+            android:onClick="testLoaderCheckPick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="cursorLoader(check image)"
+            android:layout_weight="1"
+            android:layout_marginLeft="5dp"/>
+
+    </LinearLayout>
 
 
     <android.support.v7.widget.RecyclerView

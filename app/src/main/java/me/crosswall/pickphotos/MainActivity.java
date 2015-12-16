@@ -27,11 +27,50 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(imageAdapter);
     }
 
-    public void testPick(View view){
+    public void testNormalPick(View view){
         new PickConfig.Builder(this)
                 .pickMode(PickConfig.MODE_MULTIP_PICK)
                 .maxPickSize(30)
                 .spanCount(3)
+                //.showGif(true)
+                .checkImage(false) //default false
+                .useCursorLoader(false) //default true
+                .toolbarColor(R.color.colorPrimary)
+                .build();
+    }
+
+    public void testLoaderPick(View view){
+        new PickConfig.Builder(this)
+                .pickMode(PickConfig.MODE_MULTIP_PICK)
+                .maxPickSize(30)
+                .spanCount(3)
+                //.showGif(true)
+                .checkImage(false) //default false
+                .useCursorLoader(true) //default true
+                .toolbarColor(R.color.colorPrimary)
+                .build();
+    }
+
+    public void testNormalCheckPick(View view){
+        new PickConfig.Builder(this)
+                .pickMode(PickConfig.MODE_MULTIP_PICK)
+                .maxPickSize(30)
+                .spanCount(3)
+                //.showGif(true)
+                .checkImage(true) //default false
+                .useCursorLoader(false) //default true
+                .toolbarColor(R.color.colorPrimary)
+                .build();
+    }
+
+    public void testLoaderCheckPick(View view){
+        new PickConfig.Builder(this)
+                .pickMode(PickConfig.MODE_MULTIP_PICK)
+                .maxPickSize(30)
+                .spanCount(3)
+                //.showGif(true)
+                .checkImage(true) //default false
+                .useCursorLoader(true) //default true
                 .toolbarColor(R.color.colorPrimary)
                 .build();
     }
@@ -49,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
             imageAdapter.clearAdapter();
             imageAdapter.addData(pick);
         }
-
     }
 
 }
