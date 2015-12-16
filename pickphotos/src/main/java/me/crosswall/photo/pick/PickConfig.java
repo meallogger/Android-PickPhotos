@@ -22,6 +22,9 @@ public class PickConfig {
 
     public static boolean DEFALUT_SHOW_GIF = false;
 
+    public static boolean DEFALUT_USE_CURSORLOADER = true;
+    public static boolean DEFALUT_CHECK_IMAGE = false;
+
     public final static int PICK_REQUEST_CODE = 10607;
 
     public final static String EXTRA_STRING_ARRAYLIST = "extra_string_array_list";
@@ -31,13 +34,17 @@ public class PickConfig {
     public final static String EXTRA_PICK_MODE   = "extra_pick_mode";
     public final static String EXTRA_MAX_SIZE    = "extra_max_size";
     public final static String EXTRA_TOOLBAR_COLOR = "extra_toolbar_color";
-    public final static String EXTRA_SHOW_GIF    = "extra_show_gif";
+    public final static String EXTRA_SHOW_GIF      = "extra_show_gif";
+    public final static String EXTRA_CURSOR_LOADER = "extra_cursor_loader";
+    public final static String EXTRA_CHECK_IMAGE   = "extra_check_image";
 
     private final int spanCount;
     private final int pickMode;
     private final int maxPickSize;
     private final int toolbarColor;
     private final boolean showGif;
+    private final boolean useCursorLoader;
+    private final boolean checkImage;
 
     private PickConfig(Activity context,PickConfig.Builder builder){
         this.spanCount = builder.spanCount;
@@ -45,12 +52,16 @@ public class PickConfig {
         this.maxPickSize  = builder.maxPickSize;
         this.toolbarColor = builder.toolbarColor;
         this.showGif   = builder.showGif;
+        this.useCursorLoader = builder.useCursorLoader;
+        this.checkImage = builder.checkImage;
         Bundle bundle = new Bundle();
         bundle.putInt(EXTRA_SPAN_COUNT,this.spanCount);
         bundle.putInt(EXTRA_PICK_MODE,this.pickMode);
         bundle.putInt(EXTRA_MAX_SIZE,this.maxPickSize);
         bundle.putInt(EXTRA_TOOLBAR_COLOR,this.toolbarColor);
         bundle.putBoolean(EXTRA_SHOW_GIF,this.showGif);
+        bundle.putBoolean(EXTRA_CURSOR_LOADER,this.useCursorLoader);
+        bundle.putBoolean(EXTRA_CHECK_IMAGE,this.checkImage);
         startPick(context,bundle);
     }
 
@@ -70,6 +81,8 @@ public class PickConfig {
         private int maxPickSize  = DEFAULT_PICKSIZE;
         private int toolbarColor = DEFALUT_TOOLBAR_COLOR;
         private boolean showGif  = DEFALUT_SHOW_GIF;
+        private boolean useCursorLoader = DEFALUT_USE_CURSORLOADER;
+        private boolean checkImage = DEFALUT_CHECK_IMAGE;
         public Builder(Activity context){
             if(context == null) {
                 throw new IllegalArgumentException("A non-null Context must be provided");
@@ -109,8 +122,18 @@ public class PickConfig {
             return this;
         }
 
-        public PickConfig.Builder showGif(boolean showGIf){
-            this.showGif = showGIf;
+        public PickConfig.Builder showGif(boolean showGif){
+            this.showGif = showGif;
+            return this;
+        }
+
+        public PickConfig.Builder checkImage(boolean checkImage){
+            this.checkImage = checkImage;
+            return this;
+        }
+
+        public PickConfig.Builder useCursorLoader(boolean useCursorLoader){
+            this.useCursorLoader = useCursorLoader;
             return this;
         }
 

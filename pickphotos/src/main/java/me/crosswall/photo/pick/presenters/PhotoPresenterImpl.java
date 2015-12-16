@@ -1,9 +1,13 @@
 package me.crosswall.photo.pick.presenters;
 
-import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
 import java.util.List;
 
-import me.crosswall.photo.pick.data.PhotoObserver;
+import me.crosswall.photo.pick.PickConfig;
+import me.crosswall.photo.pick.data.loader.MediaStoreHelper;
+import me.crosswall.photo.pick.data.normal.PhotoObserver;
 import me.crosswall.photo.pick.model.PhotoDirectory;
 import me.crosswall.photo.pick.views.PhotoView;
 import rx.Subscriber;
@@ -14,16 +18,37 @@ import rx.Subscriber;
  */
 public class PhotoPresenterImpl extends SafePresenter<PhotoView> {
 
-    public Context context;
-    public PhotoPresenterImpl(Context context, PhotoView photoView) {
+    public AppCompatActivity context;
+    public PhotoPresenterImpl(AppCompatActivity context, PhotoView photoView) {
         super(photoView);
         this.context = context;
     }
 
     @Override
     public void initialized(Object... objects) {
-        boolean showGif = (boolean) objects[0];
-        PhotoObserver.getPhotos(context,showGif).subscribe(safeSubscriber(albumSubcriber));
+
+        boolean useCursorLoader = (boolean) objects[0];
+        Bundle bundle = (Bundle) objects[1];
+
+        if(useCursorLoader){
+            getPhotosByLoader(bundle);
+        }else{
+            boolean checkImage = bundle.getBoolean(PickConfig.EXTRA_CHECK_IMAGE,PickConfig.DEFALUT_CHECK_IMAGE);
+            boolean showGif = bundle.getBoolean(PickConfig.EXTRA_SHOW_GIF,PickConfig.DEFALUT_SHOW_GIF);
+            PhotoObserver.getPhotos(context,checkImage,showGif).subscribe(safeSubscriber(albumSubcriber));
+        }
+    }
+
+    public void getPhotosByLoader(Bundle args){
+        MediaStoreHelper.getPhotoDirs(context, args, new MediaStoreHelper.PhotosResultCallback() {
+            @Override
+            public void onResultCallback(List<PhotoDirectory> directories) {
+                PhotoView photoView = getView();
+                if(photoView!=null){
+                    photoView.showPhotosView(directories);
+                }
+            }
+        });
     }
 
 
@@ -46,7 +71,7 @@ public class PhotoPresenterImpl extends SafePresenter<PhotoView> {
         public void onNext(List<PhotoDirectory> albumInfos) {
            PhotoView photoView = getView();
            if(photoView!=null){
-               photoView.showAlbumView(albumInfos);
+               photoView.showPhotosView(albumInfos);
                //selectPhotoByCategory(0); //默认全部
            }
         }

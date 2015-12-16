@@ -47,25 +47,26 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
 
     ThumbPhotoAdapter thumbPhotoAdapter;
 
-    public int spanCount;
+    private int spanCount;
 
-    public int colorPrimary;
+    private int colorPrimary;
 
-    public int maxPickSize;
+    private int maxPickSize;
 
-    public int pickMode;
+    private int pickMode;
 
-    public boolean showCamera;
+    private boolean showCamera;
 
-    public boolean supportPreview;
+    private boolean supportPreview;
 
-    public boolean showGif;
+    private boolean showGif;
 
+    private boolean useCursorLoader;
+    private Bundle bundle;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pick_photo);
-
         initData();
         initView();
         loadPhoto();
@@ -73,12 +74,12 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
     }
 
     private void initData() {
-        Bundle bundle = getIntent().getBundleExtra(PickConfig.EXTRA_PICK_BUNDLE);
+        bundle = getIntent().getBundleExtra(PickConfig.EXTRA_PICK_BUNDLE);
         spanCount = bundle.getInt(PickConfig.EXTRA_SPAN_COUNT,PickConfig.DEFAULT_SPANCOUNT);
         pickMode  = bundle.getInt(PickConfig.EXTRA_PICK_MODE,PickConfig.MODE_SINGLE_PICK);
         maxPickSize  = bundle.getInt(PickConfig.EXTRA_MAX_SIZE,PickConfig.DEFAULT_PICKSIZE);
         colorPrimary = bundle.getInt(PickConfig.EXTRA_TOOLBAR_COLOR,PickConfig.DEFALUT_TOOLBAR_COLOR);
-        showGif   = bundle.getBoolean(PickConfig.EXTRA_SHOW_GIF,PickConfig.DEFALUT_SHOW_GIF);
+        useCursorLoader = bundle.getBoolean(PickConfig.EXTRA_CURSOR_LOADER,PickConfig.DEFALUT_USE_CURSORLOADER);
     }
 
     private void initView() {
@@ -125,7 +126,8 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
         if(!PermissionUtil.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
             PermissionUtil.showPermissionDialog(this,Manifest.permission.READ_EXTERNAL_STORAGE);
         }else{
-            photoresenter.initialized(showGif);
+            photoresenter.initialized(useCursorLoader,bundle);
+
         }
     }
 
@@ -158,11 +160,12 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
     }
 
     @Override
-    public void showAlbumView(List<PhotoDirectory> photoDirectories) {
-        Toast.makeText(PickPhotosActiviy.this,"albumInfos size:" + photoDirectories.size(),Toast.LENGTH_SHORT).show();
-        albumPopupWindow.addData(photoDirectories);
-        thumbPhotoAdapter.clearAdapter();
+    public void showPhotosView(List<PhotoDirectory> photoDirectories) {
+       // Toast.makeText(PickPhotosActiviy.this,"albumInfos size:" + photoDirectories.size(),Toast.LENGTH_SHORT).show();
+        //thumbPhotoAdapter.clearAdapter();
         thumbPhotoAdapter.addData(photoDirectories.get(0).getPhotos());
+        albumPopupWindow.addData(photoDirectories);
+
     }
 
     @Override
