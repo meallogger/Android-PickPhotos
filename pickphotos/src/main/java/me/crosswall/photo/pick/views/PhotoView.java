@@ -7,9 +7,9 @@ import me.crosswall.photo.pick.model.PhotoDirectory;
  */
 public interface PhotoView extends BaseView {
     /**
-     * showAlbumView
-     * @param albumInfos
+     * showPhotosView
+     * @param photoDirectories
      */
-    void showAlbumView(List<PhotoDirectory> albumInfos);
+    void showPhotosView(List<PhotoDirectory> photoDirectories);
 
 }
