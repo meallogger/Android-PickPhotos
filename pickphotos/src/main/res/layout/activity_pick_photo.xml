@@ -47,6 +47,7 @@
             android:textSize="16sp"
             android:gravity="left|center"
             android:minWidth="100dp"
+            android:maxWidth="160dp"
             android:drawableRight="@drawable/text_indicator"
             android:drawablePadding="5dp"
             android:layout_marginLeft="8dp"
