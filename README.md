@@ -3,7 +3,7 @@
 PickPhotos for Android Devices.It‘s a simple MVP demo. 
 
 ##GIF
-<img src="https://github.com/crosswall/Android-PickPhotos/blob/master/art/pickphotos.gif" width="50%" height="50%">
+<img src="https://github.com/crosswall/Android-PickPhotos/blob/master/art/demo.gif" width="40%" height="40%">
 
 ##How to use.
 
