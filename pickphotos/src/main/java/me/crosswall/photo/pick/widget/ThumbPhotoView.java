@@ -51,7 +51,7 @@ public class ThumbPhotoView extends RelativeLayout{
 
     public void loadData(String folderPath,int pickMode){
         Uri uri = UriUtil.generatorUri(folderPath,UriUtil.LOCAL_FILE_SCHEME);
-        Glide.with(getContext()).load(uri).placeholder(photo_thumbview.getDrawable()).thumbnail(0.3f).error(R.drawable.default_error).into(photo_thumbview);
+        Glide.with(getContext()).load(uri).placeholder(R.drawable.default_error).thumbnail(0.3f).error(R.drawable.default_error).into(photo_thumbview);
         if(pickMode == PickConfig.MODE_MULTIP_PICK){
             photo_thumbview_selected.setVisibility(VISIBLE);
         }else{
