@@ -53,5 +53,15 @@ PickPhotos for Android Devices.It‘s a simple MVP demo.
 
 ##Change Log
 
+####12/16/15
+>* fixed ui errors
+>* refactor model & media data
+>* added showGif config
+
+
+####12/14/15
+>* added check image status method
+>* fixed bug
+
 
 
