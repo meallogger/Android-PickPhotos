@@ -59,6 +59,8 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
 
     public boolean supportPreview;
 
+    public boolean showGif;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,7 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
         pickMode  = bundle.getInt(PickConfig.EXTRA_PICK_MODE,PickConfig.MODE_SINGLE_PICK);
         maxPickSize  = bundle.getInt(PickConfig.EXTRA_MAX_SIZE,PickConfig.DEFAULT_PICKSIZE);
         colorPrimary = bundle.getInt(PickConfig.EXTRA_TOOLBAR_COLOR,PickConfig.DEFALUT_TOOLBAR_COLOR);
+        showGif   = bundle.getBoolean(PickConfig.EXTRA_SHOW_GIF,PickConfig.DEFALUT_SHOW_GIF);
     }
 
     private void initView() {
@@ -122,7 +125,7 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
         if(!PermissionUtil.checkPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)){
             PermissionUtil.showPermissionDialog(this,Manifest.permission.READ_EXTERNAL_STORAGE);
         }else{
-            photoresenter.initialized();
+            photoresenter.initialized(showGif);
         }
     }
 

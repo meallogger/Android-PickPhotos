@@ -20,6 +20,8 @@ public class PickConfig {
 
     public static int DEFALUT_TOOLBAR_COLOR = R.color.colorPrimary;
 
+    public static boolean DEFALUT_SHOW_GIF = false;
+
     public final static int PICK_REQUEST_CODE = 10607;
 
     public final static String EXTRA_STRING_ARRAYLIST = "extra_string_array_list";
@@ -29,23 +31,26 @@ public class PickConfig {
     public final static String EXTRA_PICK_MODE   = "extra_pick_mode";
     public final static String EXTRA_MAX_SIZE    = "extra_max_size";
     public final static String EXTRA_TOOLBAR_COLOR = "extra_toolbar_color";
+    public final static String EXTRA_SHOW_GIF    = "extra_show_gif";
 
     private final int spanCount;
     private final int pickMode;
     private final int maxPickSize;
     private final int toolbarColor;
-
+    private final boolean showGif;
 
     private PickConfig(Activity context,PickConfig.Builder builder){
         this.spanCount = builder.spanCount;
         this.pickMode  = builder.pickMode;
         this.maxPickSize  = builder.maxPickSize;
         this.toolbarColor = builder.toolbarColor;
+        this.showGif   = builder.showGif;
         Bundle bundle = new Bundle();
         bundle.putInt(EXTRA_SPAN_COUNT,this.spanCount);
         bundle.putInt(EXTRA_PICK_MODE,this.pickMode);
         bundle.putInt(EXTRA_MAX_SIZE,this.maxPickSize);
         bundle.putInt(EXTRA_TOOLBAR_COLOR,this.toolbarColor);
+        bundle.putBoolean(EXTRA_SHOW_GIF,this.showGif);
         startPick(context,bundle);
     }
 
@@ -64,7 +69,7 @@ public class PickConfig {
         private int pickMode  = MODE_SINGLE_PICK;
         private int maxPickSize  = DEFAULT_PICKSIZE;
         private int toolbarColor = DEFALUT_TOOLBAR_COLOR;
-
+        private boolean showGif  = DEFALUT_SHOW_GIF;
         public Builder(Activity context){
             if(context == null) {
                 throw new IllegalArgumentException("A non-null Context must be provided");
@@ -104,6 +109,10 @@ public class PickConfig {
             return this;
         }
 
+        public PickConfig.Builder showGif(boolean showGIf){
+            this.showGif = showGIf;
+            return this;
+        }
 
         public PickConfig build(){
             return new PickConfig(context,this);

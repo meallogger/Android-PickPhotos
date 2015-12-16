@@ -14,7 +14,7 @@ public abstract class SafePresenter<T extends BaseView> {
     private WeakReference<T> weakReference;
 
 
-    abstract void initialized();
+    abstract void initialized(Object... objects);
 
     public SafePresenter(T t) {
         if (t == null) {
