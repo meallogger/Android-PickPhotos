@@ -1,4 +1,4 @@
-package me.crosswall.photo.pick.data;
+package me.crosswall.photo.pick.data.normal;
 
 
 import android.content.Context;
@@ -15,11 +15,11 @@ import rx.schedulers.Schedulers;
  */
 public class PhotoObserver {
 
-    public static Observable<List<PhotoDirectory>> getPhotos(final Context context,final boolean showGif){
+    public static Observable<List<PhotoDirectory>> getPhotos(final Context context,final boolean checkImage,final boolean showGif){
         return Observable.create(new Observable.OnSubscribe<List<PhotoDirectory>>() {
             @Override
             public void call(Subscriber<? super List<PhotoDirectory>> subscriber) {
-                List<PhotoDirectory> photos = PhotoData.getPhotos(context,showGif);
+                List<PhotoDirectory> photos = PhotoData.getPhotos(context,checkImage,showGif);
                 subscriber.onNext(photos);
                 subscriber.onCompleted();
             }
