@@ -149,7 +149,7 @@ public class PickPhotosActiviy extends AppCompatActivity implements PhotoView {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            photoresenter.initialized();
+            photoresenter.initialized(useCursorLoader,bundle);
         }else{
             String permission = permissions[0];
             boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, permission);
