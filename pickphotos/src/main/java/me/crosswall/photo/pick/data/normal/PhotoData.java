@@ -5,22 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
-
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import me.crosswall.photo.pick.R;
+import me.crosswall.photo.pick.data.Data;
 import me.crosswall.photo.pick.model.PhotoDirectory;
-import me.crosswall.photo.pick.util.BitmapUtil;
-
-import static android.provider.BaseColumns._ID;
-import static android.provider.MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME;
-import static android.provider.MediaStore.Images.ImageColumns.BUCKET_ID;
-import static android.provider.MediaStore.MediaColumns.DATA;
-import static android.provider.MediaStore.MediaColumns.DATE_ADDED;
 import static android.provider.MediaStore.MediaColumns.MIME_TYPE;
 
 /**
@@ -59,59 +47,10 @@ public class PhotoData {
         Cursor data = resolver.query(IMAGE_URI, IMAGE_PROJECTION,
                 selection, selectionArgs, SORT);
 
-        List<PhotoDirectory> directories = new ArrayList<>();
-        PhotoDirectory photoDirectoryAll = new PhotoDirectory();
-        photoDirectoryAll.setName(context.getString(R.string.all_photo));
-        photoDirectoryAll.setId("ALL");
+        if (data == null) return null;
 
-        while (data.moveToNext()) {
-
-            int imageId = data.getInt(data.getColumnIndexOrThrow(_ID));
-            String bucketId = data.getString(data.getColumnIndexOrThrow(BUCKET_ID));
-            String name = data.getString(data.getColumnIndexOrThrow(BUCKET_DISPLAY_NAME));
-            String path = data.getString(data.getColumnIndexOrThrow(DATA));
-
-            if (checkImageStatus) {
-                if (!BitmapUtil.checkImgCorrupted(path)) {
-                    PhotoDirectory photoDirectory = new PhotoDirectory();
-                    photoDirectory.setId(bucketId);
-                    photoDirectory.setName(name);
-
-                    if (!directories.contains(photoDirectory)) {
-                        photoDirectory.setCoverPath(path);
-                        photoDirectory.addPhoto(imageId, path);
-                        photoDirectory.setDateAdded(data.getLong(data.getColumnIndexOrThrow(DATE_ADDED)));
-                        directories.add(photoDirectory);
-                    } else {
-                        directories.get(directories.indexOf(photoDirectory)).addPhoto(imageId, path);
-                    }
-
-                    photoDirectoryAll.addPhoto(imageId, path);
-                }
-            } else {
-
-                PhotoDirectory photoDirectory = new PhotoDirectory();
-                photoDirectory.setId(bucketId);
-                photoDirectory.setName(name);
-
-                if (!directories.contains(photoDirectory)) {
-                    photoDirectory.setCoverPath(path);
-                    photoDirectory.addPhoto(imageId, path);
-                    photoDirectory.setDateAdded(data.getLong(data.getColumnIndexOrThrow(DATE_ADDED)));
-                    directories.add(photoDirectory);
-                } else {
-                    directories.get(directories.indexOf(photoDirectory)).addPhoto(imageId, path);
-                }
-
-                photoDirectoryAll.addPhoto(imageId, path);
-            }
-
-
-        }
-        if (photoDirectoryAll.getPhotoPaths().size() > 0) {
-            photoDirectoryAll.setCoverPath(photoDirectoryAll.getPhotoPaths().get(0));
-        }
-        directories.add(0, photoDirectoryAll);
+        List<PhotoDirectory> directories = Data.getDataFromCursor(context,data,checkImageStatus);
+        data.close();
 
         return directories;
     }
