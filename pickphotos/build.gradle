@@ -1,4 +1,14 @@
+plugins {
+    id "com.jfrog.bintray" version "1.6"
+}
+
+version = "1.0.0.1"
+group = "com.meallogger"
+
 apply plugin: 'com.android.library'
+
+def siteUrl = 'https://github.com/meallogger/Android-PickPhotos'
+def gitUrl = 'https://github.com/meallogger/Android-PickPhotos.git'
 
 android {
     compileSdkVersion 23
@@ -20,6 +30,24 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        name = "Android-PickPhotos"
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["MIT"]
+        publish = true
     }
 }
 
